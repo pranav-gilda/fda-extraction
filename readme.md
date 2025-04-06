@@ -69,27 +69,22 @@ For each method, store fields:
 | Structure     | ✅ Structured     | ❌ Needs formatting  |
 | Generalization| ❌ Weak           | ✅ Strong            |
 
----
+### Strengths:
+- Uses multiple NLP techniques to increase robustness
+- Easy to extend or swap models for better accuracy
+- Lightweight and reproducible
 
-## 🔄 Future Work (Suggestions if Time/Resources Permitted)
+### Limitations:
+- Regex rules are brittle to phrasing changes
+- LLM hallucinations possible (needs validation)
+- OpenFDA label format is inconsistent across products
 
-### 1. **Fine-Tune an Extraction LLM**
-Train a model (e.g., BioGPT, SciBERT) on annotated FDA labels for consistent DDI/contraindication tuples.
 
-### 2. **RAG-Augmented Retrieval**
-Use LangChain RAG pipeline to pre-index sections, then query and extract in context-aware fashion.
-
-### 3. **Improve Regex + NLP Ensemble**
-- Expand regex grammar for passive voice or bullet lists
-- Use relation extraction (REBEL or SpaCy's `dep` parser) to improve context linkage
-
-### 4. **Expand to SPL XML**
-- Support Structured Product Labeling (SPL) XML documents
-- Parse by LOINC section codes (e.g., 34067-9 for Indications)
-
-### 5. **Interactive Visualizations**
-- Drug interaction graphs
-- Temporal timeline of label revisions (warnings added/removed)
+### 🔄 Next Steps (Suggestions if Time/Resources Permitted)
+- Fine-tune LLM on DDI domain examples for better accuracy
+- Add label section classifiers to handle broader label coverage
+- Build an evaluation set to compare extraction precision/recall
+- Include more structured product labeling (SPL) or DailyMed formats
 
 ---
 
