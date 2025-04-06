@@ -1,41 +1,45 @@
-# Project: Drug-Drug Interaction Extraction from FDA Labels
+## 🧪 FDA Drug Label DDI & Contraindication Extractor
 
-## 🔎 Objective
-Extract structured information about drug-drug interactions (DDIs) and contraindications from FDA drug labeling data using a combination of natural language processing (NLP) techniques.
+### 📌 Overview
 
----
+This project is a data extraction pipeline that parses Drug-Drug Interactions (DDIs) and contraindications from FDA drug product labeling, using a combination of NLP techniques. The data is retrieved using the official FDA Drug Label API and analyzed for interaction patterns.
 
-## 🎓 Background
-FDA drug labels are essential safety documents, but much of their content exists in unstructured text. Extracting DDIs and contraindications from these labels can:
-- Enhance clinical decision support systems
-- Power pharmacovigilance platforms
-- Enable downstream analysis of drug safety
+#### The pipeline integrates:
+1. Regex-based extraction
+2. Named Entity Recognition (NER) using SciSpaCy
+3. LLM-based language understanding using LangChain + HuggingFace
 
----
+### ⚙️ Features
+- Extracts text from the drug_interactions and contraindications sections
+- Identifies interacting drugs and possible effects using:
+- Handcrafted regex rules
+- NER-based chemical entity extraction
+- Language model generation using flan-t5-base
+- Structures results into a DataFrame for further analysis/export
+- Evaluates and logs each method’s output for self-assessment
 
-## 📊 Methodology
-
+## 🧪 Methodology
 ### 1. Data Ingestion
-- Source: [`https://api.fda.gov/drug/label.json`](https://api.fda.gov/drug/label.json)
-- Retrieved a subset of labels via API (10 per run for testing).
+- API used: https://api.fda.gov/drug/label.json
+- Limited to 10 records for testing
+- Extract fields like drug_interactions, contraindications, and openfda metadata
 
 ### 2. Preprocessing
-- Normalized and cleaned sections like `drug_interactions`, `contraindications`
-- Added bullet breaks and stripped excess whitespace
+- Cleaned whitespace and special formatting (e.g., bullets)
+- Extracted structured drug name using openfda fields or fallback methods
 
 ### 3. Extraction Techniques
 #### ✅ Regex-Based Extraction
-- Targets patterns like "Drug1 and Drug2 may cause EFFECT"
-- Fast but fragile to sentence variability
+Targets patterns like "Drug1 and Drug2 may cause EFFECT"
+Fast but fragile to sentence variability
 
-#### ✅ Named Entity Recognition (NER)
-- Tool: `spaCy` + `en_core_sci_sm`
-- Extracts chemicals and drug mentions
+#### 🧠 Named Entity Recognition (NER)
+Used 'en_core_sci_sm' model via SciSpaCy to identify chemical entities in the interaction text.
 
-#### ✅ Language Model (LLM) Extraction
-- Model: `google/flan-t5-base` via LangChain
-- Prompted to extract clean, plain-English interaction summaries
-- Helps when regex/NER fall short
+#### 🤖 LLM via LangChain (HuggingFace)
+Used 'google/flan-t5-base' to summarize a cleaned drug label section into a one-line DDI/contraindication summary.
+##### Prompt:
+You are a pharmacology expert. Given the following section of an FDA drug label, extract a drug interaction or contraindication clearly.
 
 ### 4. Output Structuring
 For each method, store fields:
@@ -91,18 +95,18 @@ Use LangChain RAG pipeline to pre-index sections, then query and extract in cont
 
 ## 🌐 How to Run
 
-### 1. Install Dependencies
+### 🔧 Install Dependencies Setup
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Run Pipeline
+### ▶️ Run Pipeline
 ```bash
 python main.py
 ```
 
 ### 3. Output
-- Extracted records printed and optionally saved as `fda_ddi_contra_output.csv`
+- Extracted records printed and optionally saved as `fda_ddi_contra_output.csv` , other csv's attached as well from trial runs.
 
 ---
 
